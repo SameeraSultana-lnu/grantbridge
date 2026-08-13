@@ -1,0 +1,11 @@
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+frontend/dist/
+backend/dist/
+.env
+backend/.env
+frontend/.env
+.DS_Store
+# Runtime auth store — created by the app, must not be committed
+backend/data/

@@ -1,0 +1,46 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - us-central1-docker.pkg.dev/$PROJECT_ID/grantbridge/app:$COMMIT_SHA
+      - -t
+      - us-central1-docker.pkg.dev/$PROJECT_ID/grantbridge/app:latest
+      - .
+
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - --all-tags
+      - us-central1-docker.pkg.dev/$PROJECT_ID/grantbridge/app
+
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - grantbridge
+      - --image
+      - us-central1-docker.pkg.dev/$PROJECT_ID/grantbridge/app:$COMMIT_SHA
+      - --region
+      - us-central1
+      - --platform
+      - managed
+      - --allow-unauthenticated
+      - --port
+      - "8080"
+      - --memory
+      - 512Mi
+      - --cpu
+      - "1"
+      - --min-instances
+      - "0"
+      - --max-instances
+      - "2"
+      - --set-env-vars
+      - USE_DATABASE=false,NODE_ENV=production
+      # JWT_SECRET is injected as a Cloud Run secret — set it via:
+      # gcloud run services update grantbridge --update-secrets JWT_SECRET=grantbridge-jwt-secret:latest
+
+images:
+  - us-central1-docker.pkg.dev/$PROJECT_ID/grantbridge/app:$COMMIT_SHA

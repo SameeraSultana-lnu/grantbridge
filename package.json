@@ -1,0 +1,13 @@
+{
+  "name": "grantbridge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GrantBridge — AI-powered grant writing assistant for nonprofits",
+  "scripts": {
+    "build": "npm run build --prefix frontend && npm run build --prefix backend",
+    "start": "npm run start --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "install:all": "npm install --prefix frontend && npm install --prefix backend"
+  }
+}
