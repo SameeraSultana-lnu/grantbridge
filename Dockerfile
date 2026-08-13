@@ -10,10 +10,9 @@ FROM node:22-alpine AS backend-builder
 WORKDIR /app/backend
 COPY package.json /app/package.json
 COPY backend/package*.json ./
-# Install production deps only — devDependencies are not needed at runtime
-RUN npm ci --omit=dev
+RUN npm ci
 COPY backend/ ./
-RUN npm run build
+RUN npm run build && npm prune --omit=dev
 
 FROM node:22-alpine AS runner
 # tini gives us proper PID-1 signal forwarding inside the container
