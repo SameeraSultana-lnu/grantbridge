@@ -1,5 +1,6 @@
 FROM node:22-alpine AS frontend-builder
 WORKDIR /app/frontend
+COPY package.json /app/package.json
 COPY frontend/package*.json ./
 RUN npm ci
 COPY frontend/ ./
@@ -7,6 +8,7 @@ RUN npm run build
 
 FROM node:22-alpine AS backend-builder
 WORKDIR /app/backend
+COPY package.json /app/package.json
 COPY backend/package*.json ./
 # Install production deps only — devDependencies are not needed at runtime
 RUN npm ci --omit=dev
