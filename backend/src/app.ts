@@ -32,10 +32,6 @@ const authLimiter = rateLimit({
   message: { message: 'Too many attempts. Please try again in 15 minutes.' },
 });
 
-app.get('/', (_req, res) => {
-  res.json({ name: 'GrantBridge API', status: 'running' });
-});
-
 app.use('/api/health', healthRouter);
 app.use('/api/auth', authLimiter, authRouter);
 app.use('/api/org-profile', orgProfileRouter);
